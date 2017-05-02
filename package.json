@@ -4,14 +4,22 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --hot"
+    "start": "webpack-dev-server --hot --host 0.0.0.0",
+    "devtools": "react-devtools"
   },
   "dependencies": {
+    "history": "^4.6.1",
     "html-webpack-plugin": "^2.28.0",
+    "immutable": "^3.8.1",
     "path": "^0.12.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-redux": "^5.0.4",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.67.2",
     "webpack": "^2.3.2",
     "webpack-dev-server": "^2.4.2"

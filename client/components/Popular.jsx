@@ -8,7 +8,6 @@ import _ from 'lodash';
 import Navigations from './navigation.jsx';
 import Headers from './headers.jsx';
 import Body from './body.jsx';
-import AdvanceSearch from './advance-search.jsx';
 
 class Footer extends React.Component {
   render() {
@@ -29,9 +28,8 @@ export default class Main extends React.Component {
         <Grid columns='equal' padded>
           <Headers/>
           <Navigations/>
-          <AdvanceSearch/>
           <Grid.Row>
-            <Header as='h2'>New Release</Header>
+            <Header as='h2'>Popular</Header>
           </Grid.Row>
           <Body/>
           <Footer/>

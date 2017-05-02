@@ -1,14 +1,13 @@
 import React from 'react';
 import { 
   Grid, 
-  Container,
-  Header
+  Container
 } from 'semantic-ui-react';
 import _ from 'lodash';
 import Navigations from './navigation.jsx';
 import Headers from './headers.jsx';
-import Body from './body.jsx';
 import AdvanceSearch from './advance-search.jsx';
+import Body from './body.jsx';
 
 class Footer extends React.Component {
   render() {
@@ -30,9 +29,6 @@ export default class Main extends React.Component {
           <Headers/>
           <Navigations/>
           <AdvanceSearch/>
-          <Grid.Row>
-            <Header as='h2'>New Release</Header>
-          </Grid.Row>
           <Body/>
           <Footer/>
         </Grid>
