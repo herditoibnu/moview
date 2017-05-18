@@ -2,16 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   Grid,
+  Header,
   Dropdown,
-  Menu
+  Menu,
+  Container
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import {browserHistory} from 'react-router';
+import { 
+  fetchGenres
+} from '../actions/action.jsx';
+
 
 class Navigations extends React.Component {
   constructor(props) {
     super(props);
     
+  }
+
+  componentWillMount() {
+    this.props.fetchGenres();
   }
 
   handleClick(event) {
@@ -31,32 +41,17 @@ class Navigations extends React.Component {
 
   render() {
     return (
-      <Grid.Row>
-        <Menu borderless>
-          <Link to="/">
-            <Menu.Item> 
-              Home
-            </Menu.Item>
-          </Link>
-
-          <Dropdown item text='Genre'>
-            <Dropdown.Menu>
-              {this.renderGenres()}
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <Link to="/popular">
-            <Menu.Item> 
-              Popular
-            </Menu.Item>
-          </Link>
-
-          <Link to="/genre/dfgbdgbdjhgbdfjhgd">
-            <Menu.Item> 
-              Popular
-            </Menu.Item>
-          </Link>
-        </Menu>
+      <Grid.Row style={{backgroundColor: "#1976D2"}}>
+        <Container>
+          <Grid>
+            <Grid.Column>
+              <Header as='h3'><a href="/" className="navigation-link">Home</a></Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header as='h3'><a href="http://10.181.1.49:8000/forums" className="navigation-link">Forum</a></Header>
+            </Grid.Column>
+          </Grid>
+        </Container>
       </Grid.Row>
     );
   }
@@ -68,4 +63,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Navigations);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchGenres: () => dispatch(fetchGenres())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigations);

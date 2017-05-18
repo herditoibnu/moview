@@ -23,7 +23,6 @@ const store = createStore(
   applyMiddleware(thunk)
 )
 
-// const history = syncHistoryWithStore(browserHistory, store);
 const history = createBrowserHistory();
 
 ReactDOM.render(

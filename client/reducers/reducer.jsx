@@ -5,127 +5,84 @@ import {
   DELETE_RESERV,
   SHOW_MODAL,
   CLOSE_MODAL,
-  SET_ACTIVE_GENRE
+  SET_ACTIVE_GENRE,
+  FETCH_MOVIES_SUCCESS,
+  FETCH_GENRES_SUCCESS,
+  FETCH_MOVIES_BY_GENRE_SUCCESS,
+  SET_FILTER_MOVIES,
+  ADD_REVIEW,
+  FETCH_DIRECTORS_SUCCESS,
+  FETCH_STARS_SUCCESS
 } from '../const/actions.jsx';
 import Immutable from 'immutable';
 
-let movies = Immutable.List([{
-  id: 1,
-  name: "One Two",
-  img: "client/assets/mov1.jpg",
-  year: 2015,
-  stars: [],
-  genres: [],
-  reviews: [1],
-  desc: ""
-}, {
-  id: 2,
-  name: "Leap!",
-  img: "client/assets/mov2.jpg",
-  year: 2016,
-  stars: [1, 2],
-  genres: [1, 2, 3, 4],
-  reviews: [2, 3],
-  desc: "An orphan girl dreams of becoming a ballerina and flees her rural Brittany for Paris, where she passes for someone else and accedes to the position of pupil at the Grand Opera house."
-}]);
-
-let genres = Immutable.List([{
-  id: 1,
-  name: "Animation"
-}, {
-  id: 2,
-  name: "Adventure"
-}, {
-  id: 3,
-  name: "Comedy"
-}, {
-  id: 4,
-  name: "Family"
-}]);
-
-let stars = Immutable.List([{
-  id: 1,
-  name: "Elle Fanning"
-}, {
-  id: 2,
-  name: "Carly Rae Jepsen"
-}]);
-
-let reviews = Immutable.List([{
-  id: 1,
-  rating: 4,
-  comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-}, {
-  id: 2,
-  rating: 4,
-  comment: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. "
-}, {
-  id: 3,
-  rating: 5,
-  comment: "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
-}]);
+let movies = Immutable.List([]);
+let genres = Immutable.List([]);
+let filter = Immutable.Map({
+  genre: null,
+  stars: null,
+  year: null
+})
+let stars = Immutable.List([]);
+let directors = Immutable.List([]);
 
 let init = Immutable.Map({
-  showModal: null,
   movies: movies,
-  stars: stars,
   genres: genres,
-  reviews: reviews,
-  activeGenre: null
+  directors: directors,
+  stars: stars,
+  showModal: null,
+  filter: filter
 });
 
 export default function(data=init, action) {
   switch(action.type) {
-    case ADD_RESERV: 
-      return [
-        ...movies,
-        action.payload
-      ];
-    case EDIT_RESERV:
-      return movies.map(reserv => {
-        if (reserv.id === action.payload.id) {
-          
-        }
-      });
     case SHOW_MODAL:
-      let movie_temp = data.get('movies').toJS().slice().find(mov => mov.id === action.payload)
-
-      let movie = {
-        id: movie_temp.id,
-        name: movie_temp.name,
-        img: movie_temp.img,
-        year: movie_temp.year,
-        stars: movie_temp.stars,
-        genres: movie_temp.genres,
-        desc: movie_temp.desc,
-        reviews: movie_temp.reviews
-      }
-
-      movie.stars = movie.stars.map(star => {
-        return data.get('stars').toJS().slice().find(stars_ => {
-          return stars_.id === star;
-        });
-      });
-
-      movie.genres = movie.genres.map(genre => {
-        return data.get('genres').toJS().slice().find(genre_ => {
-          return genre_.id === genre;
-        });
-      });
-
-      movie.reviews = movie.reviews.map(review => {
-        return data.get('reviews').toJS().slice().find(review_ => {
-          return review_.id === review;
-        });
-      });
-
-
+      let movie = data.get('movies').toJS().slice().find(mov => mov.id === action.payload);
       return data.set('showModal', movie);
     case CLOSE_MODAL:
       return data.set('showModal', null);
     case SET_ACTIVE_GENRE:
-      console.log("active genre = " + action.payload)
-      return data.set('activeGenre', action.payload)
+      return data.set('activeGenre', action.payload);
+    case FETCH_MOVIES_SUCCESS:
+      return data.set('movies', Immutable.List(action.payload));
+    case FETCH_GENRES_SUCCESS:
+      return data.set('genres', Immutable.List(action.payload));
+    case FETCH_MOVIES_BY_GENRE_SUCCESS:
+      return data.set('movies', Immutable.List(action.payload));
+    case FETCH_DIRECTORS_SUCCESS:
+      return data.set('directors', Immutable.List(action.payload));
+    case FETCH_STARS_SUCCESS:
+      return data.set('stars', Immutable.List(action.payload));
+    case SET_FILTER_MOVIES:
+      if (action.payload.isReplace) {
+        console.log("Filter: ");
+        console.log(action.payload.filter);
+        return data.set('filter', Immutable.Map(action.payload.filter));
+      } else {
+        const filter_temp = action.payload.filter;
+        const filter_old = data.get('filter').toJS();
+        const filter = {
+          genre: filter_temp.genre ? filter_temp.genre : filter_old.genre,
+          stars: filter_temp.stars ? fitler_temp.stars : filter_old.stars,
+          year: filter_temp.year ? fitler_temp.year : filter_old.year
+        };
+        console.log(filter);
+        return data.set('filter', Immutable.Map(filter));
+      }
+    case ADD_REVIEW:
+      let movies = data.get('movies').toJS();
+      movies = movies.map(movie => {
+        if (movie.id === action.payload.idMovie) {
+          movie.reviews.unshift({
+            id: action.payload.id,
+            rating: action.payload.rating,
+            comment: action.payload.comment
+          })
+        }
+        return movie;
+      });
+      return data.set('movies', Immutable.List(movies));
     default:
       return data;
   }

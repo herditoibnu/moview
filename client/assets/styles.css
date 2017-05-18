@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i');
+
+.app body, div, p, a, h1, h2, h3, h4, h5 {
+  font-family: 'Open Sans', cursive;
+}
+
+.form-advanced-search {
+  width: 100%;
+}
+
+.form-year {
+  width: 20%;
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.form-search-submit {
+  z-index: 10;  
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+}
+
+.column-row-search {
+  padding: 7px !important;
+}
+
+h4 {
+  margin-bottom: 5px !important;
+}
+
+.search-container {
+  background-image: url('http://wallpapercave.com/wp/oDm0RF6.jpg');
+  background-position: center;
+  background-size: 1350px 800px;
+  height: 500px;
+}
+
+.grid-row-modal {
+  padding: 2px !important;
+}
+
+.img-user-comment {
+  width: 90px;
+  height: auto;
+  padding-bottom: 10px;
+}
+
+.grid-comment-modal {
+  height: 150px;
+}
+
+#form-comment {
+  height: 80px !important;
+  min-height: 20px !important;
+}
+
+.footer {
+  margin-top: 20px;
+  background-color: #2196F3;
+}
+
+.img-footer {
+  width: 210px;
+  height: auto;
+  margin: auto;
+}
+
+.navigation-link {
+  color: white;
+}
+
+.navigation-link:hover {
+  color: yellow;
+}
+
+.caption-search {
+  font-size: 1.5em;
+}
+
+.image-modal {
+  width: 1000px;
+  height: auto;
+}
+
+
+.image-movie {
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.image-movie::after {
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  transition: opacity 0.3s ease-in-out;
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.image-movie:hover {
+  -webkit-transform: scale(1.25, 1.25);
+  transform: scale(1.1, 1.1);
+}
+
+.image-movie:hover::after {
+    opacity: 1;
+}
+
+.label-segment {
+  color: white;
+}

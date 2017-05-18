@@ -9,7 +9,9 @@ import Navigations from './navigation.jsx';
 import Headers from './headers.jsx';
 import Body from './body.jsx';
 import AdvanceSearch from './advance-search.jsx';
-import { setActiveGenre } from '../actions/action.jsx';
+import { 
+  setFilterMovies
+} from '../actions/action.jsx';
 import { connect } from 'react-redux';
 
 class Footer extends React.Component {
@@ -30,11 +32,19 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.props.match.params.genreCustom) {
-      this.props.setActiveGenre(null);
-    } else {
-      this.props.setActiveGenre(this.props.match.params.genreCustom);
+    console.log("componentWillMount = " + this.props.match.params.genreCustom);
+    if (this.props.match.params.genreCustom) {
+      this.props.setFilterMovies({ 
+        genre: this.props.match.params.genreCustom 
+      }, true);
     }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log("componentWillUpdate = " + nextProps.match.params.genreCustom);
+    nextProps.setFilterMovies({
+        genre: nextProps.match.params.genreCustom
+      }, true);
   }
 
   render() {
@@ -43,6 +53,7 @@ class Main extends React.Component {
         <Grid columns='equal' padded>
           <Headers/>
           <Navigations/>
+          <AdvanceSearch/>
           <Grid.Row>
             <Header as='h2'>{this.props.match.params.genreCustom}</Header>
           </Grid.Row>
@@ -62,7 +73,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setActiveGenre: id => dispatch(setActiveGenre(id))
+    setFilterMovies: (filter, isReplaced) => {
+      return dispatch(setFilterMovies(filter, isReplaced));
+    }
   }
 }
 

@@ -9,34 +9,58 @@ import Navigations from './navigation.jsx';
 import Headers from './headers.jsx';
 import Body from './body.jsx';
 import AdvanceSearch from './advance-search.jsx';
+import Footer from './footer.jsx';
+import { 
+  setFilterMovies
+} from '../actions/action.jsx';
+import { connect } from 'react-redux';
+import styles from '../assets/styles.css';
 
-class Footer extends React.Component {
-  render() {
-    return (
-      <Grid.Row>
-        <Grid.Column>
-          2017
-        </Grid.Column>
-      </Grid.Row>
-    );
+class Main extends React.Component {
+  componentWillMount() {
+    this.props.setFilterMovies({}, true);
   }
-}
 
-export default class Main extends React.Component {
   render() {
     return (
-      <Container>
+      <div>
         <Grid columns='equal' padded>
           <Headers/>
           <Navigations/>
           <AdvanceSearch/>
-          <Grid.Row>
-            <Header as='h2'>New Release</Header>
-          </Grid.Row>
           <Body/>
           <Footer/>
         </Grid>
-      </Container>
+      </div>
     );
+
+    // return (
+    //   <Container>
+    //     <Grid columns='equal' padded>
+    //       <Headers/>
+    //       <Navigations/>
+    //       <AdvanceSearch/>
+    //       <Grid.Row>
+    //         <Header as='h2'>New Release</Header>
+    //       </Grid.Row>
+    //       <Body/>
+    //       <Footer/>
+    //     </Grid>
+    //   </Container>
+    // );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {};
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setFilterMovies: (filter, isReplaced) => {
+      return dispatch(setFilterMovies(filter, isReplaced));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

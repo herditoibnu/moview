@@ -6,7 +6,8 @@ import {
   Menu,
   Image,
   Modal,
-  Button
+  Button,
+  Container
 } from 'semantic-ui-react';
 import Immutable from 'immutable';
 import MovieModal from './movie-modal.jsx';
@@ -24,21 +25,14 @@ class Body extends React.Component {
     this.props.showModal(id);
   }
 
-  renderItems() {
-    return this.props.movies.map(movie => {
-      return (
-        <Grid.Column key={movie.id} onClick={this.handleClick.bind(this, movie.id)}>
-          <Image width={500} src={movie.img}/>
-          {movie.name}
-        </Grid.Column>
-      );
-    })
-  }
-
   render() {
     return (
-      <Grid.Row>
-        <MovieItems/>
+      <Grid.Row style={{marginTop: "10px"}}>
+        <Container>
+        </Container>
+        <Container>
+          <MovieItems/>
+        </Container>
       </Grid.Row>
     );
   }
