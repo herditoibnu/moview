@@ -12,6 +12,9 @@ import {browserHistory} from 'react-router';
 import { 
   fetchGenres
 } from '../actions/action.jsx';
+import {
+  FORUM_ADDRESS
+} from '../const/actions.jsx';
 
 
 class Navigations extends React.Component {
@@ -41,14 +44,14 @@ class Navigations extends React.Component {
 
   render() {
     return (
-      <Grid.Row style={{backgroundColor: "#1976D2"}}>
+      <Grid.Row style={{backgroundColor: "#1976D2", height: "57px", paddingTop: "18px"}}>
         <Container>
           <Grid>
             <Grid.Column>
-              <Header as='h3'><a href="/" className="navigation-link">Home</a></Header>
+              <Header as='h3' style={{fontSize: "15px"}}><a href="/" className="navigation-link">Home</a></Header>
             </Grid.Column>
             <Grid.Column>
-              <Header as='h3'><a href="http://10.181.1.49:8000/forums" className="navigation-link">Forum</a></Header>
+              <Header as='h3' style={{fontSize: "15px"}}><a href={FORUM_ADDRESS + 'forums'} className="navigation-link">Forum</a></Header>
             </Grid.Column>
           </Grid>
         </Container>

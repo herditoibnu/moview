@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Grid,
   Button,
+  Header,
   Search,
   Container
 } from 'semantic-ui-react';
@@ -9,6 +10,12 @@ import { connect } from 'react-redux';
 import { 
   
 } from '../actions/action.jsx';
+import {
+  FORUM_ADDRESS
+} from '../const/actions.jsx';
+import {
+  Link
+} from 'react-router-dom';
 
 class Headers extends React.Component {
   constructor(props) {
@@ -23,7 +30,7 @@ class Headers extends React.Component {
   componentWillMount() {
     this.resetComponent.bind(this);
     this.setState({ isLoading: false, results: [], value: '' });
-
+    
     this.setState({
       movies: this.props.movies
     })
@@ -55,26 +62,39 @@ class Headers extends React.Component {
     }, 500)
   }
 
-  resultRenderer(a, b, c) {
+  renderUser() {
+    if (this.props.user.name) {
+      return (
+        <div style={{float:"right", marginTop: "1.7%"}}>
+          <a href={FORUM_ADDRESS+"forums/logout"}>
+            <Button inverted style={{float:"right"}}>Logout</Button>
+          </a>
+          <Header as='h4' style={{float:"right", marginRight: "10px", marginTop: "10px", color: "white"}}>Hi, {this.props.user.name}</Header>
+        </div>
+      );
+    }
+
     return (
-      <div>
-        {a}
-        {b}
-        {c}
+      <div style={{float:"right", marginTop: "1.7%"}}>
+        <Link to={'/login'}>
+          <Button inverted >Login</Button>
+        </Link>
+        <Link to={'/register'}>
+          <Button inverted >Register</Button>
+        </Link>
       </div>
-    )
+    );
   }
 
   render() {
     const { isLoading, value, results } = this.state;
 
     return (
-      <Grid.Row style={{backgroundColor: "#2196F3", padding: "0px"}}>
+      <Grid.Row style={{backgroundColor: "#2196F3", padding: "0px", height: "80px"}}>
         <Container>
           <Grid.Column width={4}>
-            <img src="client/assets/logo.png" style={{width: "200px", height: "auto"}}/>
-            <Button inverted style={{float:"right", marginTop: "3%"}}>Register</Button>
-            <Button inverted style={{float:"right", marginTop: "3%"}}>Login</Button>
+            <img src="client/assets/logo.png" style={{width: "150px", height: "auto"}}/>
+            {this.renderUser()}
           </Grid.Column>
         </Container>
       </Grid.Row>
@@ -84,12 +104,14 @@ class Headers extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    movies: state.reducer.get('movies').toJS()
+    movies: state.reducer.get('movies').toJS(),
+    user: state.reducer.get('user').toJS()
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    
   }
 }
 

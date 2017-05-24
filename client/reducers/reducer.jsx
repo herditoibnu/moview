@@ -10,9 +10,14 @@ import {
   FETCH_GENRES_SUCCESS,
   FETCH_MOVIES_BY_GENRE_SUCCESS,
   SET_FILTER_MOVIES,
+  LOGOUT,
   ADD_REVIEW,
   FETCH_DIRECTORS_SUCCESS,
-  FETCH_STARS_SUCCESS
+  FETCH_STARS_SUCCESS,
+  FETCH_SESSION_SUCCESS,
+  FETCH_USERS_SUCCESS,
+  LOGIN,
+  REGISTER
 } from '../const/actions.jsx';
 import Immutable from 'immutable';
 
@@ -25,6 +30,8 @@ let filter = Immutable.Map({
 })
 let stars = Immutable.List([]);
 let directors = Immutable.List([]);
+let user = Immutable.Map({});
+let users = Immutable.List([]);
 
 let init = Immutable.Map({
   movies: movies,
@@ -32,7 +39,9 @@ let init = Immutable.Map({
   directors: directors,
   stars: stars,
   showModal: null,
-  filter: filter
+  filter: filter,
+  user: user,
+  users: users
 });
 
 export default function(data=init, action) {
@@ -54,6 +63,19 @@ export default function(data=init, action) {
       return data.set('directors', Immutable.List(action.payload));
     case FETCH_STARS_SUCCESS:
       return data.set('stars', Immutable.List(action.payload));
+    case REGISTER:
+      return data.update('users', users => users.push({
+        name: action.payload.name,
+        email: action.payload.email,
+        password: action.payload.password
+      }));
+    case LOGIN:
+      return data.set('user', Immutable.Map({
+        name: action.payload.name,
+        email: action.payload.email
+      }));
+    case LOGOUT:
+      return data.set('user', Immutable.Map({}));
     case SET_FILTER_MOVIES:
       if (action.payload.isReplace) {
         console.log("Filter: ");
@@ -77,7 +99,9 @@ export default function(data=init, action) {
           movie.reviews.unshift({
             id: action.payload.id,
             rating: action.payload.rating,
-            comment: action.payload.comment
+            comment: action.payload.comment,
+            id_user: action.payload.iduser,
+            namauser: action.payload.namauser
           })
         }
         return movie;

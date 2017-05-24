@@ -13,7 +13,12 @@ import {
   SET_FILTER_MOVIES,
   ADD_REVIEW,
   FETCH_DIRECTORS_SUCCESS,
-  FETCH_STARS_SUCCESS
+  FETCH_STARS_SUCCESS,
+  FORUM_ADDRESS,
+  FETCH_USERS_SUCCESS,
+  LOGIN,
+  REGISTER,
+  LOGOUT
 } from '../const/actions.jsx';
 
 export function showModal(id) {
@@ -43,14 +48,16 @@ export function fetchMoviesSuccess(movies) {
   };
 }
 
-export function addReview(idMovie, id, rating, comment) {
+export function addReview(idMovie, id, rating, comment, iduser, namauser) {
   return {
     type: ADD_REVIEW,
     payload: {
       idMovie: idMovie,
       id: id,
       rating: rating,
-      comment: comment
+      comment: comment,
+      iduser: iduser,
+      namauser: namauser
     }
   }
 }
@@ -93,6 +100,39 @@ export function setFilterMovies(filter, isReplace) {
   }
 }
 
+export function login(email, password) {
+  return {
+    type: LOGIN,
+    payload: {
+      email: email,
+      password: password
+    }
+  };
+}
+
+export function register(nama, email, password) {
+  return {
+    type: REGISTER,
+    payload: {
+      name: name,
+      email: email,
+      password: password
+    }
+  }
+}
+
+export function logout() {
+  return {
+    type: LOGOUT
+  };
+}
+
+export function fetchUsersSuccess(users) {
+  return {
+    type: FETCH_USERS_SUCCESS,
+    payload: users
+  }
+}
 
 export function fetchMovies() {
   return (dispatch) => {
@@ -174,7 +214,7 @@ export function fetchDirectors() {
   };
 }
 
-export function insertReview(idMovie, rating, comment) {
+export function insertReview(idMovie, rating, comment, iduser, namauser) {
   return (dispatch) => {
     return fetch('http://localhost:8000/movies/' + idMovie + '/reviews', {
       method: 'POST',
@@ -184,12 +224,14 @@ export function insertReview(idMovie, rating, comment) {
       },
       body: JSON.stringify({
         rating: rating,
-        comment: comment
+        comment: comment,
+        iduser: iduser,
+        namauser: namauser
       })
     })
     .then(response => response.json())
     .then(response => {
-      return dispatch(addReview(idMovie, response.id, response.rating, response.comment));
+      return dispatch(addReview(idMovie, response.id, response.rating, response.comment, response.id_user, namauser));
     })
     .catch(error => {
       throw(error);
@@ -210,6 +252,27 @@ export function fetchMoviesByGenre(genre) {
     .then(response => response.json())
     .then(response => {
       return dispatch(fetchMoviesByGenreSuccess(response));
+    })
+    .catch(error => {
+      throw(error);
+    })
+  }
+}
+
+export function fetchUsers() {
+  return (dispatch) => {
+    return fetch(FORUM_ADDRESS+'forums/users', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log("USERS : ")
+      console.log(response)
+      return dispatch(fetchUsersSuccess(response));
     })
     .catch(error => {
       throw(error);

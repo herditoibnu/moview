@@ -11,7 +11,8 @@ import Body from './body.jsx';
 import AdvanceSearch from './advance-search.jsx';
 import Footer from './footer.jsx';
 import { 
-  setFilterMovies
+  setFilterMovies,
+  fetchUsers
 } from '../actions/action.jsx';
 import { connect } from 'react-redux';
 import styles from '../assets/styles.css';
@@ -19,6 +20,7 @@ import styles from '../assets/styles.css';
 class Main extends React.Component {
   componentWillMount() {
     this.props.setFilterMovies({}, true);
+    this.props.fetchUsers();
   }
 
   render() {
@@ -59,6 +61,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setFilterMovies: (filter, isReplaced) => {
       return dispatch(setFilterMovies(filter, isReplaced));
+    },
+    fetchUsers: () => {
+      return dispatch(fetchUsers());
     }
   };
 }

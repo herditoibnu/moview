@@ -4,6 +4,7 @@ import {
   Grid,
   Header,
   Segment,
+  Input,
   Label,
   Rating,
   Container,
@@ -35,7 +36,8 @@ class UserReviews extends React.Component {
     this.setState({
       reviews: _.reverse(this.props.reviews),
       commentText: '',
-      rating: 0
+      rating: 0,
+      namauser: ""
     })
   }
 
@@ -53,12 +55,12 @@ class UserReviews extends React.Component {
   
   renderReviews() {
     return this.state.reviews.map((review) => {
-      console.log(review);
+      console.log(review)
       return (
           <Comment key={review.id}>
             <Comment.Avatar src='http://react.semantic-ui.com/assets/images/avatar/small/matt.jpg' />
             <Comment.Content>
-              <Comment.Author as='a'>Matt</Comment.Author>
+              <Comment.Author as='a'>{review.namauser}</Comment.Author>
               <Comment.Metadata>
                 <div>
                   <Rating icon='star' defaultRating={review.rating} maxRating={5} disabled/>
@@ -82,13 +84,21 @@ class UserReviews extends React.Component {
 
   onSubmitClick(event) {
     event.preventDefault();
-    this.props.insertReview(this.props.movieId, this.state.rating, this.state.commentText);
-    
+    this.setState({
+      commentText: ""
+    })
+    this.props.insertReview(this.props.movieId, this.state.rating, this.state.commentText, 1, this.state.namauser);
   }
 
   handleChange(event) {
     this.setState({
       commentText: event.target.value
+    })
+  }
+
+  handleChangeUser(event) {
+    this.setState({
+      namauser: event.target.value
     })
   }
 
@@ -120,6 +130,7 @@ class UserReviews extends React.Component {
                   style={{ width: "100%" }}/>
               </Grid.Row>
               <Grid.Row>
+                <Input placeholder='Your name..' onChange={this.handleChangeUser.bind(this)} style={{marginTop: "5px",float: "left"}}/>
                 <Button content='Review' labelPosition='left' icon='edit' style={{marginTop: "5px", float: "right"}} primary />
               </Grid.Row>
             </Grid.Column>
@@ -140,13 +151,15 @@ class UserReviews extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    movies: state.reducer.get('movies')
+    movies: state.reducer.get('movies'),
+    user: state.reducer.get('user').toJS(),
+    users: state.reducer.get('users').toJS()
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    insertReview: (idMovie, rating, comment) => dispatch(insertReview(idMovie, rating, comment))
+    insertReview: (idMovie, rating, comment, iduser, namauser) => dispatch(insertReview(idMovie, rating, comment, iduser, namauser))
   };
 }
 
