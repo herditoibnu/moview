@@ -28,7 +28,7 @@ class Main extends React.Component {
       <div>
         <Grid columns='equal' padded>
           <Headers/>
-          <Navigations/>
+          
           <AdvanceSearch/>
           <Body/>
           <Footer/>

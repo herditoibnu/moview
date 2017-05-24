@@ -74,17 +74,10 @@ class Headers extends React.Component {
       );
     }
 
-    return (
-      <div style={{float:"right", marginTop: "1.7%"}}>
-        <Link to={'/login'}>
-          <Button inverted >Login</Button>
-        </Link>
-        <Link to={'/register'}>
-          <Button inverted >Register</Button>
-        </Link>
-      </div>
-    );
+    
   }
+
+  
 
   render() {
     const { isLoading, value, results } = this.state;
